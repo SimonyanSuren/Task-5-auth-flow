@@ -13,9 +13,7 @@ async function fetchUsers() {
     const user = usersData[i - 1];
     query += ` ($${counter},$${counter + 1},$${counter + 2}, $${
       counter + 3
-    }, $${counter + 4} )${
-      i !== usersData.length ? ',' : ' RETURNING *'
-    }`;
+    }, $${counter + 4} )${i !== usersData.length ? ',' : ' RETURNING *'}`;
     counter += 5;
     values.push(user.id);
     values.push(user.name);
@@ -40,7 +38,7 @@ async function removeUsersFromDB() {
 
 async function tableHasRow() {
   const res = await client.query(`SELECT * FROM users_info`);
-  return res.rows.length > 0; 
+  return res.rows.length > 0;
 }
 
 async function addUserToDB(user) {
@@ -63,11 +61,11 @@ async function addUserToDB(user) {
   return res.rows;
 }
 
-async function getOneUserFromDB(id) {
-  const res = await client.query(`SELECT * FROM "users_info" WHERE id=$1`, [
-    id,
+async function getOneUserFromDB(email) {
+  const res = await client.query(`SELECT * FROM "users_info" WHERE email=$1`, [
+    email,
   ]);
-  return res.rows;
+  return res.rows[0];
 }
 
 async function putOneUserFromDB(data) {
@@ -79,7 +77,7 @@ async function putOneUserFromDB(data) {
     `UPDATE users_info
 	 SET (${column.join()}) = ('${fields.join("','")}')
 	 WHERE id =$1
-	 RETURNING *`,
+	 RETURNING name, username, email, address`,
     [data.userId]
   );
   return res.rows;

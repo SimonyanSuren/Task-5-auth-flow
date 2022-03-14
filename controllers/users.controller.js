@@ -41,10 +41,10 @@ async function addOneUser(req, res, next) {
 }
 
 async function getOneUser(req, res, next) {
-  const userId = req.user.id;
-  const result = await getOneUserFromDB(userId);
-  if (result.length) {
-    res.send(result);
+  const userEmail = req.user.email;
+  const { name, username, email, address } = await getOneUserFromDB(userEmail);
+  if (email) {
+    res.send({ name, username, email, address });
   } else {
     res.status(404).send('There is not such a user.');
   }

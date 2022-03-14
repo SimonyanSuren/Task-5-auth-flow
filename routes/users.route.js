@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
 const {
   addUsers,
@@ -10,14 +10,9 @@ const {
   removeOneUser,
 } = require('../controllers/users.controller');
 
-router.post('/users', addUsers);
-router.get('/users', getUsers);
-router.delete('/users', removeUsers);
-router.post('/user', addOneUser);
+router.route('/users').post(addUsers).get(getUsers).delete(removeUsers);
+router.route('/user').post(addOneUser).put(putOneUser);
 router.get('/user/:id', getOneUser);
-router.put('/user', putOneUser);
 router.delete('/user/:id', removeOneUser);
 
 module.exports = router;
-
-

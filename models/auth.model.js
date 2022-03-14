@@ -5,7 +5,7 @@ const findUser = async (email) => {
     `SELECT * FROM "users_info" WHERE email = $1`,
     [email]
   );
-  return res.rows.length || 0;
+  return res.rows.length ? res.rows[0] : 0;
 };
 
 const addUserToDB = async (user) => {
