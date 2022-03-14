@@ -22,7 +22,7 @@ const login = async (req, res) => {
       token: token,
     });
   } else {
-    const err = new BadRequestError('Please insert correct password');
+    const err = new BadRequestError('Please insert correct email and password');
     res.send({ msg: err.message });
   }
 };
