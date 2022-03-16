@@ -1,19 +1,18 @@
 const express = require('express');
-const routesUsers = require('./routes/users.route');
-const routeAuth = require('./routes/auth.route');
-const notFoundMiddleware = require('./middleware/not-found.middleware');
-const errorHandlerMiddleware = require('./middleware/error-handler.middleware');
-const authenticationMiddleware = require('./middleware/auth.middleware');
+const usersRouter = require('./routes/users.route');
+const authRouter = require('./routes/auth.route');
+const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler.middleware');
 
 const client = require('./db/connect');
 
 const app = express();
 
 app.use(express.json());
-app.use(routeAuth);
-app.use(authenticationMiddleware, routesUsers);
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+app.use(authRouter);
+app.use(usersRouter);
+app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT;
 

@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const usersRouter = require('express').Router();
 
 const {
   addUsers,
@@ -9,10 +9,11 @@ const {
   putOneUser,
   removeOneUser,
 } = require('../controllers/users.controller');
+const authenticationMiddleware = require('../middleware/auth.middleware');
 
-router.route('/users').post(addUsers).get(getUsers).delete(removeUsers);
-router.route('/user').post(addOneUser).put(putOneUser);
-router.get('/user/:id', getOneUser);
-router.delete('/user/:id', removeOneUser);
+usersRouter.route('/users',authenticationMiddleware).post(addUsers).get(getUsers).delete(removeUsers);
+usersRouter.route('/user').post(addOneUser).put(putOneUser);
+usersRouter.get('/user/:id',authenticationMiddleware, getOneUser);
+usersRouter.delete('/user/:id', authenticationMiddleware,removeOneUser);
 
-module.exports = router;
+module.exports = usersRouter;
